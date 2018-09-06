@@ -1,0 +1,23 @@
+#nginx proxy container for serving static content at https
+proxy:
+  build: nginx/
+  #port 443 exposed for https
+  expose:
+   - "443"
+  ports:
+   - "443:443"
+  links:
+   - webapp
+  hostname: "proxy"
+
+#tomcat webapp container for serving dynamic war file at https
+webapp:
+  build: tomcat/
+  expose:
+   - "8080"
+  ports: 
+   - "8080:8080"
+  hostname: "webapp"
+  # persist data stored in prevayler filesystem to docker volume
+  volumes:
+   - Prevayler_data:/Users/dcameron/persistence
